@@ -24,6 +24,8 @@ Puppet::Functions.create_function(:"noop::class_interface", Puppet::Functions::I
   def class_noop(scope, class_noop, class_noop_override = nil)
     noop_default = if !class_noop_override.nil?
                      class_noop_override
+                   elsif scope['facts']['clientnoop'] == true
+                     noop::agent_noop_state()
                    elsif scope['facts']['clientnoop'] == false
                      class_noop
                    else
